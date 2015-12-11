@@ -20,6 +20,13 @@ void Windivert_Packet_System::Windivert_Open_UDP()
 		exit(EXIT_FAILURE);
 	}
 
+	if (!WinDivertSetParam(handle, WINDIVERT_PARAM_QUEUE_LEN, 8192))
+	{
+		fprintf(stderr, "error: failed to set packet queue length (%d)\n",
+			GetLastError());
+		exit(EXIT_FAILURE);
+	}
+
 }
 
 void Windivert_Packet_System::ReceiveUdp_Packet()
@@ -48,10 +55,10 @@ void Windivert_Packet_System::ReceiveUdp_Packet()
 		SENDSAVEPACKET UDP_temp; //
 
 		//cout << " 끅 " << endl;
-		for (int i = 0; i < packet_len; i++)
-			printf("%X ", packet[i]);
+		//for (int i = 0; i < packet_len; i++)
+		//	printf("%X ", packet[i]);
 
-		cout << endl << endl;
+		//cout << endl << endl;
 
 		memcpy(&(UDP_temp.buff), &packet, packet_len); // UDP 패킷 복사
 		memcpy(&(UDP_temp.send_addr), &recv_addr, sizeof(WINDIVERT_ADDRESS)); //주소 복사
@@ -75,12 +82,13 @@ void Windivert_Packet_System::SendUdp_Packet()
 
 		else
 		{
-			chrono::system_clock::time_point Endtime = chrono::system_clock::now();
-			time_t t = chrono::system_clock::to_time_t(Endtime);
-			time_t l = chrono::system_clock::to_time_t(Saved_UDP_Packet[0].receive_packet_time);
+			//chrono::system_clock::time_point Endtime = chrono::system_clock::now();
+			//time_t t = chrono::system_clock::to_time_t(Endtime);
+			//time_t l = chrono::system_clock::to_time_t(Saved_UDP_Packet[0].receive_packet_time);
 
-
-			if ((t - l) < input_time)
+			std::chrono::duration<double> sec = std::chrono::system_clock::now() - Saved_UDP_Packet[0].receive_packet_time;
+			
+			if (sec.count() < input_time)
 				continue;
 
 			else
@@ -88,8 +96,8 @@ void Windivert_Packet_System::SendUdp_Packet()
 				SENDSAVEPACKET now = Saved_UDP_Packet[0];
 				u_char *tt = (u_char*)now.buff;
 
-				for (int i = 0; i < now.len; i++)
-					printf("%X ", tt[i]);
+				//for (int i = 0; i < now.len; i++)
+				//	printf("%X ", tt[i]);
 
 				if (!WinDivertSend(handle, (PVOID)&now.buff, (now.len), &(now.send_addr),
 					NULL)) // send_addr 걍 방향만 설정해서 내보내주면 된다. 따라서 필요한건 dnr 배열을 만들어서 저장해야된다.
@@ -97,8 +105,13 @@ void Windivert_Packet_System::SendUdp_Packet()
 					fprintf(stderr, "warning: failed to send UDP message "
 						"(%d)\n", GetLastError());
 				}
+				//else
+				//{
+				//	for (int i = 0; i < now.len; i++)
+				//		printf("%X ", tt[i]);
+				//
+				//}
 
-				
 				mtx_lock.lock();
 				Saved_UDP_Packet.erase(Saved_UDP_Packet.begin());
 				mtx_lock.unlock();
