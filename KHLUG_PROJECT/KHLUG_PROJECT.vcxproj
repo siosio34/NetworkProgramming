@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Configure.h" />
+    <ClInclude Include="TCPApiClient.h" />
     <ClInclude Include="Windivert_Packet_System.h" />
     <ClInclude Include="Winpcap_Packet_System.h" />
   </ItemGroup>

@@ -9,9 +9,14 @@ private:
 	mutex mtx_lock; // mutex 동기화 객체
 public:
 	void Windivert_Open_UDP();
+
 	void ReceiveUdp_Packet(); // UDP 를 저장해서보관
 	void SendUdp_Packet(); // UDP 를 보내겠습니다.
-	void Run_UDP_Delay();
+	void _RunUDPDelay();
+
+	void _RunPacketContentChange();
+	void ReceiveTCP_Packet();
+
 
 
 };

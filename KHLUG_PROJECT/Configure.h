@@ -60,11 +60,7 @@
 // windiver 함수를 사용할려면 관리자 모드로 켜야되고 이상하게 디버깅을 시도하면 패킷 자체가 안열림 ( 아마 드라이버 서명 문제인듯 )
 #include <windivert.h>
 #include <pcap.h>
-
-
 using namespace std;
-
-
 
 typedef struct etc_header {
 	u_int8_t  ether_dhost[ETHER_ADDR_LEN];     //destination Mac
@@ -85,8 +81,6 @@ typedef struct arp_header
 
 	u_char Des_Macaddr[ETHER_ADDR_LEN]; // target Hard address
 	u_char Des_ipaddr[ARP_IP_LEN]; // target source IP
-
-
 }ARP_HEADER;
 
 typedef struct infection {
@@ -126,12 +120,14 @@ typedef struct tcp_header {
 
 }TCPHEADER, *PTCPHEADER;
 
+
 /* UDP header*/
 typedef struct udp_header {
 	u_short sport;          // Source port
 	u_short dport;          // Destination port
 	u_short len;            // Datagram length
 	u_short crc;            // Checksum
+
 }UDPHEADER;
 
 typedef struct Basic_ip_mac_addr
@@ -155,4 +151,17 @@ typedef struct
 	int len;
 	u_char buff[MAXBUF];
 
-}SENDSAVEPACKET;
+} SENDSAVEPACKET;
+
+typedef struct
+{
+	WINDIVERT_ADDRESS send_addr; // 보낼 방향 및 플래그 설정				
+	u_char pay_load_data[65535];
+
+} SENDTCPPACKET, *PSENDTCPPACKET;
+
+
+
+
+
+

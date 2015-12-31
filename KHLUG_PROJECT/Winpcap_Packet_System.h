@@ -20,14 +20,11 @@ public:
 	PIP_ADAPTER_ADDRESSES Find_Addapter(string _device_name); // 어댑터 이름 찾기
 	vector<u_char> Send_ARP_For_Macaddr(pcap_t* handle, int flag); // Arp 해킷을 보내서 맥주소를 따옴.
 
-	
-	 void Send_Arp_Infection_Packet();
-	 void Send_Arp_Relay_Packet();
-
-
+	void Send_Arp_Infection_Packet();
+	void Send_Arp_Relay_Packet();
 
 	void _RunPacketCapture();
 	void _RunArpSpoofing();
-
+	void _RunSendRst();
 };
 

@@ -2,6 +2,7 @@
 #include "Configure.h"
 #include "Winpcap_Packet_System.h"
 #include "Windivert_Packet_System.h"
+
 class Application
 {
 private:
@@ -13,7 +14,11 @@ public:
 	void ProcessInput(int num);
 	void RunPacketCapture();
 	void RunArpSpoofing();
+	void RunSendRst();
 	void RunUDPDelay();
+	void RunPacketContentChange();
+	
+
 	
 
 };

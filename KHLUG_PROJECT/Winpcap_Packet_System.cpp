@@ -172,7 +172,6 @@ int Winpcap_Packet_System::open_device(pcap_t *_adhandle, int _flag)
 		// 희생자 IP 설정
 		Input_Victim_ip();
 
-
 		// 1. 희생자 IP -> 입력
 		// 2. 공격자의 MAC  및 3. IP 는 어댑터만 알면 찾을 수 있다.
 		// 4. 게이트워어 IP 도 어댑터로 찾을 수 있다.
@@ -206,7 +205,6 @@ void Winpcap_Packet_System::pcap_handler(u_char * param, const pcap_pkthdr * hea
 	 unsigned char *data_ptr;
 
 	eth = (etc_header*)(const u_char*)(pkt_data);
-
 	ih = (ip_header *)(pkt_data +14); /* retireve the position of the ip header */
 	ip_len = (ih->ver_ihl & 0xf) * 4; //length of ethernet header
 
@@ -222,8 +220,6 @@ void Winpcap_Packet_System::pcap_handler(u_char * param, const pcap_pkthdr * hea
 	for (int i = 0; i < 6; i++)
 	{
 		printf("%02X ", eth->ether_dhost[i]);
-		
-		
 	}
 	printf("\n\n");
 
@@ -593,8 +589,6 @@ void Winpcap_Packet_System::Send_Arp_Relay_Packet()
 }
 
 
-
-
 void Winpcap_Packet_System::_RunPacketCapture()
 {
 	if (open_device(adhandle,0) == -1)
@@ -665,4 +659,19 @@ void Winpcap_Packet_System::_RunArpSpoofing()
 	}
 
 }
+
+void Winpcap_Packet_System::_RunSendRst()
+{
+	if (open_device(adhandle, 1) == -1)
+	{
+		return;
+	}
+	else
+	{
+		Send_Arp_Infection_Packet();
+	}
+	
+}
+
+
 	
