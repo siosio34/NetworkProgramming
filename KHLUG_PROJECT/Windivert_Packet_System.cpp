@@ -143,6 +143,9 @@ void Windivert_Packet_System::_RunPacketContentChange()
 	// 리시브 에서 내용 채인지를 나중에 함수 따로 빼서 구현 
 	// 문자열 검색 알고리즘 공부 필요
 
+	//http://shaeod.tistory.com/220
+
+
 	Windivert_Open_UDP();
 	ReceiveTCP_Packet();
 
